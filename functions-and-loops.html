@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.2 Meeting Videos | Computational Genomics with R Book Club</title>
+  <title>2.6 Functions and Loops | Computational Genomics with R Book Club</title>
   <meta name="description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta property="og:title" content="2.6 Functions and Loops | Computational Genomics with R Book Club" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="github-repo" content="r4ds/bookclub-comp_genom" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta name="twitter:title" content="2.6 Functions and Loops | Computational Genomics with R Book Club" />
   
   <meta name="twitter:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="slide-1-7.html"/>
-<link rel="next" href="multi-omics-analysis.html"/>
+<link rel="prev" href="plots-base-r-vs-ggplot.html"/>
+<link rel="next" href="resources-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -263,29 +263,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="meeting-videos-9" class="section level2 hasAnchor" number="10.2">
-<h2><span class="header-section-number">10.2</span> Meeting Videos<a href="meeting-videos-9.html#meeting-videos-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="cohort-1-9" class="section level3 hasAnchor" number="10.2.1">
-<h3><span class="header-section-number">10.2.1</span> Cohort 1<a href="meeting-videos-9.html#cohort-1-9" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<iframe src="https://www.youtube.com/embed/URL" width="100%" height="400px" data-external="1">
-</iframe>
-<details>
-<summary>
-Meeting chat log
-</summary>
-<pre><code>LOG</code></pre>
-</details>
-
+<div id="functions-and-loops" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Functions and Loops<a href="functions-and-loops.html#functions-and-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Components of a basic function</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="functions-and-loops.html#cb17-1" aria-hidden="true" tabindex="-1"></a>my_function <span class="ot">&lt;-</span><span class="cf">function</span>(x,y){ <span class="co"># create function as object (my_function &lt;- function()) </span></span>
+<span id="cb17-2"><a href="functions-and-loops.html#cb17-2" aria-hidden="true" tabindex="-1"></a>                             <span class="co"># define inputs of function (function(x,y))</span></span>
+<span id="cb17-3"><a href="functions-and-loops.html#cb17-3" aria-hidden="true" tabindex="-1"></a>                             <span class="co"># function is written between {} brackets</span></span>
+<span id="cb17-4"><a href="functions-and-loops.html#cb17-4" aria-hidden="true" tabindex="-1"></a>result<span class="ot">=</span>x<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>y<span class="sc">^</span><span class="dv">2</span>               <span class="co"># what your function does with inputs</span></span>
+<span id="cb17-5"><a href="functions-and-loops.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(result)               <span class="co"># return() gives the result as the output</span></span>
+<span id="cb17-6"><a href="functions-and-loops.html#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-7"><a href="functions-and-loops.html#cb17-7" aria-hidden="true" tabindex="-1"></a>                         </span>
+<span id="cb17-8"><a href="functions-and-loops.html#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">my_function</span>(<span class="dv">2</span>,<span class="dv">3</span>)              <span class="co"># now try the function out</span></span></code></pre></div>
+<pre><code>## [1] 13</code></pre>
+<p>A function with conditions</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="functions-and-loops.html#cb19-1" aria-hidden="true" tabindex="-1"></a>largeCpGi<span class="ot">&lt;-</span><span class="cf">function</span>(bedRow){      <span class="co"># function takes input one row of CpGi data frame </span></span>
+<span id="cb19-2"><a href="functions-and-loops.html#cb19-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># generated earlier under &quot;Read files in base R&quot;</span></span>
+<span id="cb19-3"><a href="functions-and-loops.html#cb19-3" aria-hidden="true" tabindex="-1"></a> cpglen<span class="ot">=</span>bedRow[<span class="dv">3</span>]<span class="sc">-</span>bedRow[<span class="dv">2</span>]<span class="sc">+</span><span class="dv">1</span>     <span class="co"># subtract column 3 value from column 2 value + 1</span></span>
+<span id="cb19-4"><a href="functions-and-loops.html#cb19-4" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(cpglen<span class="sc">&gt;</span><span class="dv">1500</span>){                 <span class="co"># if the result (cpglen) meets this parameter                                         # (is larger than 1500)</span></span>
+<span id="cb19-5"><a href="functions-and-loops.html#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;this is large</span><span class="sc">\n</span><span class="st">&quot;</span>)        <span class="co"># cat[used in place of print/return] &quot;this is                                         # large\n&quot; --&gt; the \n means print a new line</span></span>
+<span id="cb19-6"><a href="functions-and-loops.html#cb19-6" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb19-7"><a href="functions-and-loops.html#cb19-7" aria-hidden="true" tabindex="-1"></a> <span class="cf">else</span> <span class="cf">if</span>(cpglen<span class="sc">&lt;=</span><span class="dv">1500</span> <span class="sc">&amp;</span> cpglen<span class="sc">&gt;</span><span class="dv">700</span>){           <span class="co"># else if -- if the above was not true,                                                # see if result meets these parameters</span></span>
+<span id="cb19-8"><a href="functions-and-loops.html#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;this is normal</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb19-9"><a href="functions-and-loops.html#cb19-9" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb19-10"><a href="functions-and-loops.html#cb19-10" aria-hidden="true" tabindex="-1"></a> <span class="cf">else</span>{                            <span class="co"># if the result did not meet previous parameters</span></span>
+<span id="cb19-11"><a href="functions-and-loops.html#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;this is short</span><span class="sc">\n</span><span class="st">&quot;</span>)        </span>
+<span id="cb19-12"><a href="functions-and-loops.html#cb19-12" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb19-13"><a href="functions-and-loops.html#cb19-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-14"><a href="functions-and-loops.html#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">largeCpGi</span>(cpgi.df[<span class="dv">10</span>,])           <span class="co"># function to take 10th row of data frame </span></span></code></pre></div>
+<pre><code>## this is short</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="functions-and-loops.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">largeCpGi</span>(cpgi.df[<span class="dv">10</span>])            <span class="co"># what happens if you input this instead?</span></span></code></pre></div>
+<pre><code>## Error in `[.data.frame`(cpgi.df, 10): undefined columns selected</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="functions-and-loops.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">largeCpGi</span>(<span class="fu">cpgi.df</span>(<span class="dv">10</span>))            <span class="co"># or this?</span></span></code></pre></div>
+<pre><code>## Error in cpgi.df(10): could not find function &quot;cpgi.df&quot;</code></pre>
+<p>Loops to repeat a function multiple times</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="functions-and-loops.html#cb25-1" aria-hidden="true" tabindex="-1"></a>result<span class="ot">=</span><span class="fu">c</span>() <span class="co"># this is where we will keep the lengths. for now it is an empty vector.</span></span>
+<span id="cb25-2"><a href="functions-and-loops.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="functions-and-loops.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){                      <span class="co"># start a loop to iterate 100 times</span></span>
+<span id="cb25-4"><a href="functions-and-loops.html#cb25-4" aria-hidden="true" tabindex="-1"></a>    len<span class="ot">=</span>cpgi.df[i,<span class="dv">3</span>]<span class="sc">-</span>cpgi.df[i,<span class="dv">2</span>]<span class="sc">+</span><span class="dv">1</span>   <span class="co"># to calculate the length of each cpgi</span></span>
+<span id="cb25-5"><a href="functions-and-loops.html#cb25-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># where i is each row of the data frame cpgi.df</span></span>
+<span id="cb25-6"><a href="functions-and-loops.html#cb25-6" aria-hidden="true" tabindex="-1"></a>    result<span class="ot">=</span><span class="fu">c</span>(result,len)              <span class="co"># append the length to the result each time</span></span>
+<span id="cb25-7"><a href="functions-and-loops.html#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-8"><a href="functions-and-loops.html#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="functions-and-loops.html#cb25-9" aria-hidden="true" tabindex="-1"></a>result                                <span class="co"># check the result</span></span></code></pre></div>
+<pre><code>##   [1]  277  360  383 1325 3498 1602 1317  250  871  226  788  300 1001  311  790
+##  [16]  224 1259  725  525  690  426  636  827 1010  237  601  484  297  968  441
+##  [31]  793  235  212  648  656  659  794  324  356  729  786  202  401 1787 1045
+##  [46]  265  203  498  455  203  821  745 1013  341 1795  801  333  885  520  497
+##  [61] 1403 1737 1192 1007 1142 1009  276  626 1440  512  552  344  268  233  273
+##  [76]  232 2353  456  937  941  985 1584  878  357  758  884 1355  979 1294  757
+##  [91]  786  807 1118  833  931  533  618 1965  321 1048</code></pre>
+<p>Loops are not always the most efficient way to work in R.
+We can use special functions to perform loops.</p>
+<p>In base R: the <code>apply</code> family
+<img src="images/apply.jpg" alt="The apply function. Source: http://1.bp.blogspot.com/-iMDDGLrX1fI/VgxVnChAF7I/AAAAAAAADu8/s37f7Fu23F4/s1600/New%2BPicture%2B%25286%2529.bmp" />
+<img src="images/apply2.jpg" alt="The apply function in action. Source: https://i.ytimg.com/vi/VQLbD5YEPEA/hqdefault.jpg" />
+<code>lapply</code> applies a function to a single list or vector
+<code>mapply</code> is like <code>lapply</code> but over multiple vectors/lists</p>
+<p>vectorized function can be summed (<code>+</code>, <code>rowSums</code>, <code>colSums</code>)</p>
+<p>In the tidyverse: <code>purrr</code> –&gt; specifically <code>map</code>
+<img src="images\map.png" alt="map in the tidyverse. Source: https://cdn-ak.f.st-hatena.com/images/fotolife/y/yoshidk6/20180806/20180806153334.png" /></p>
 </div>
-</div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="slide-1-7.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="multi-omics-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="plots-base-r-vs-ggplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="resources-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -316,7 +360,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/10.Rmd",
+"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/02.Rmd",
 "text": "Edit"
 },
 "history": {

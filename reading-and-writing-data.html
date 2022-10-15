@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10.2 Meeting Videos | Computational Genomics with R Book Club</title>
+  <title>2.4 Reading and writing data | Computational Genomics with R Book Club</title>
   <meta name="description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta property="og:title" content="2.4 Reading and writing data | Computational Genomics with R Book Club" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="github-repo" content="r4ds/bookclub-comp_genom" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta name="twitter:title" content="2.4 Reading and writing data | Computational Genomics with R Book Club" />
   
   <meta name="twitter:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="slide-1-7.html"/>
-<link rel="next" href="multi-omics-analysis.html"/>
+<link rel="prev" href="data-stuctures-and-data-types.html"/>
+<link rel="next" href="plots-base-r-vs-ggplot.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -263,29 +263,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="meeting-videos-9" class="section level2 hasAnchor" number="10.2">
-<h2><span class="header-section-number">10.2</span> Meeting Videos<a href="meeting-videos-9.html#meeting-videos-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="cohort-1-9" class="section level3 hasAnchor" number="10.2.1">
-<h3><span class="header-section-number">10.2.1</span> Cohort 1<a href="meeting-videos-9.html#cohort-1-9" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<iframe src="https://www.youtube.com/embed/URL" width="100%" height="400px" data-external="1">
-</iframe>
-<details>
-<summary>
-Meeting chat log
-</summary>
-<pre><code>LOG</code></pre>
-</details>
-
+<div id="reading-and-writing-data" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Reading and writing data<a href="reading-and-writing-data.html#reading-and-writing-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First download the <code>compGenomRData</code> package from Github if you haven’t done so yet.
+We are using this as a companion for the course!</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="reading-and-writing-data.html#cb5-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;compgenomr/compGenomRData&quot;</span>)</span></code></pre></div>
+<p>Read files in base R</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="reading-and-writing-data.html#cb6-1" aria-hidden="true" tabindex="-1"></a>cpgiFilePath<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
+<span id="cb6-2"><a href="reading-and-writing-data.html#cb6-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;subset.cpgi.hg18.bed&quot;</span>,</span>
+<span id="cb6-3"><a href="reading-and-writing-data.html#cb6-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb6-4"><a href="reading-and-writing-data.html#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="reading-and-writing-data.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># read CpG island BED file</span></span>
+<span id="cb6-6"><a href="reading-and-writing-data.html#cb6-6" aria-hidden="true" tabindex="-1"></a>cpgi.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(cpgiFilePath, <span class="at">header =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="reading-and-writing-data.html#cb7-1" aria-hidden="true" tabindex="-1"></a>enhancerFilePath<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
+<span id="cb7-2"><a href="reading-and-writing-data.html#cb7-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;subset.enhancers.hg18.bed&quot;</span>,</span>
+<span id="cb7-3"><a href="reading-and-writing-data.html#cb7-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb7-4"><a href="reading-and-writing-data.html#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="reading-and-writing-data.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># read enhancer marker BED file</span></span>
+<span id="cb7-6"><a href="reading-and-writing-data.html#cb7-6" aria-hidden="true" tabindex="-1"></a>enh.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(enhancerFilePath, <span class="at">header =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb7-7"><a href="reading-and-writing-data.html#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="reading-and-writing-data.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># check first lines to see how the data looks like</span></span>
+<span id="cb7-9"><a href="reading-and-writing-data.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(enh.df)</span></code></pre></div>
+<pre><code>##      V1     V2     V3 V4   V5 V6    V7      V8 V9
+## 1 chr20 266275 267925  . 1000  .  9.11 13.1693 -1
+## 2 chr20 287400 294500  . 1000  . 10.53 13.0231 -1
+## 3 chr20 300500 302500  . 1000  .  9.10 13.3935 -1
+## 4 chr20 330400 331800  . 1000  .  6.39 13.5105 -1
+## 5 chr20 341425 343400  . 1000  .  6.20 12.9852 -1
+## 6 chr20 437975 439900  . 1000  .  6.31 13.5184 -1</code></pre>
+<p>the key here is</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="reading-and-writing-data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.table</span>()</span></code></pre></div>
+<p>Reading large tables with <code>readr</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="reading-and-writing-data.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb10-2"><a href="reading-and-writing-data.html#cb10-2" aria-hidden="true" tabindex="-1"></a>df.f2<span class="ot">=</span><span class="fu">read_table</span>(enhancerFilePath, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   X1 = col_character(),
+##   X2 = col_double(),
+##   X3 = col_double(),
+##   X4 = col_character(),
+##   X5 = col_double(),
+##   X6 = col_character(),
+##   X7 = col_double(),
+##   X8 = col_double(),
+##   X9 = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="reading-and-writing-data.html#cb12-1" aria-hidden="true" tabindex="-1"></a>df.f2</span></code></pre></div>
+<pre><code>## # A tibble: 50,416 × 9
+##    X1        X2     X3 X4       X5 X6       X7    X8    X9
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 chr20 266275 267925 .      1000 .      9.11  13.2    -1
+##  2 chr20 287400 294500 .      1000 .     10.5   13.0    -1
+##  3 chr20 300500 302500 .      1000 .      9.1   13.4    -1
+##  4 chr20 330400 331800 .      1000 .      6.39  13.5    -1
+##  5 chr20 341425 343400 .      1000 .      6.2   13.0    -1
+##  6 chr20 437975 439900 .      1000 .      6.31  13.5    -1
+##  7 chr20 516650 518525 .      1000 .     12.5   13.7    -1
+##  8 chr20 519100 521475 .      1000 .      7.1   13.1    -1
+##  9 chr20 543800 545775 .      1000 .      9.52  13.0    -1
+## 10 chr20 573550 574975 .      1000 .      7.71  13.7    -1
+## # … with 50,406 more rows</code></pre>
+<p>Readr is part of the tidyverse (tidyverse is life).</p>
+<p>Writing data w/ <code>write.table</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="reading-and-writing-data.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(enh.df,<span class="at">file=</span><span class="st">&quot;enh.txt&quot;</span>,<span class="at">quote=</span><span class="cn">FALSE</span>,</span>
+<span id="cb14-2"><a href="reading-and-writing-data.html#cb14-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">row.names=</span><span class="cn">FALSE</span>,<span class="at">col.names=</span><span class="cn">FALSE</span>,<span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<ul>
+<li>The type of file it is save as depends on the sep (^ saved a tab separated file or .tsv)</li>
+</ul>
+<p>Saving/loading R objects directly into/from a file</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="reading-and-writing-data.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save() saves many objects at once, regardless of class</span></span>
+<span id="cb15-2"><a href="reading-and-writing-data.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(cpgi.df,enh.df,<span class="at">file=</span><span class="st">&quot;mydata.RData&quot;</span>)</span>
+<span id="cb15-3"><a href="reading-and-writing-data.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;mydata.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="reading-and-writing-data.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS() can save one object at a type</span></span>
+<span id="cb16-2"><a href="reading-and-writing-data.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(cpgi.df,<span class="at">file=</span><span class="st">&quot;cpgi.rds&quot;</span>)</span>
+<span id="cb16-3"><a href="reading-and-writing-data.html#cb16-3" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">readRDS</span>(<span class="st">&quot;cpgi.rds&quot;</span>)</span>
+<span id="cb16-4"><a href="reading-and-writing-data.html#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(x)</span>
+<span id="cb16-5"><a href="reading-and-writing-data.html#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># when using saveRDS() must assign output of readRDS() to new variable in session</span></span></code></pre></div>
 </div>
-</div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="slide-1-7.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="multi-omics-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-stuctures-and-data-types.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plots-base-r-vs-ggplot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -316,7 +378,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/10.Rmd",
+"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/02.Rmd",
 "text": "Edit"
 },
 "history": {
