@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.4 Relationship between variables: Linear models and correlation | Computational Genomics with R Book Club</title>
+  <meta name="description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.4 Relationship between variables: Linear models and correlation | Computational Genomics with R Book Club" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
+  <meta name="github-repo" content="r4ds/bookclub-comp_genom" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.4 Relationship between variables: Linear models and correlation | Computational Genomics with R Book Club" />
+  
+  <meta name="twitter:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
+  
+
+<meta name="author" content="The R4DS Online Learning Community" />
+
+
+<meta name="date" content="2022-10-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="how-to-test-for-differences-between-samples.html"/>
+<link rel="next" href="meeting-videos-2.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computational Genomics with R Book Club</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="book-club-meetings.html"><a href="book-club-meetings.html"><i class="fa fa-check"></i>Book club meetings</a></li>
+<li class="chapter" data-level="" data-path="pace.html"><a href="pace.html"><i class="fa fa-check"></i>Pace</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html"><i class="fa fa-check"></i><b>1</b> Introduction to Genomics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="genes-genomes-and-genomics.html"><a href="genes-genomes-and-genomics.html"><i class="fa fa-check"></i><b>1.1</b> Genes, Genomes, and Genomics</a></li>
+<li class="chapter" data-level="1.2" data-path="gene-regulation.html"><a href="gene-regulation.html"><i class="fa fa-check"></i><b>1.2</b> Gene regulation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="gene-regulation.html"><a href="gene-regulation.html#transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="gene-regulation.html"><a href="gene-regulation.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.2</b> Post-transcriptional regulation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="genetic-mutations.html"><a href="genetic-mutations.html"><i class="fa fa-check"></i><b>1.3</b> Genetic mutations</a></li>
+<li class="chapter" data-level="1.4" data-path="sequencing.html"><a href="sequencing.html"><i class="fa fa-check"></i><b>1.4</b> Sequencing</a></li>
+<li class="chapter" data-level="1.5" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>1.5</b> Resources</a></li>
+<li class="chapter" data-level="1.6" data-path="meeting-videos.html"><a href="meeting-videos.html"><i class="fa fa-check"></i><b>1.6</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="meeting-videos.html"><a href="meeting-videos.html#cohort-1"><i class="fa fa-check"></i><b>1.6.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-for-genomic-data-analysis.html"><a href="introduction-to-r-for-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for Genomic Data Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="genomic-data-analysis-a-high-level-view-in-r.html"><a href="genomic-data-analysis-a-high-level-view-in-r.html"><i class="fa fa-check"></i><b>2.1</b> Genomic data analysis (a high level view)– in R!</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-r-and-bioconductor.html"><a href="getting-started-with-r-and-bioconductor.html"><i class="fa fa-check"></i><b>2.2</b> Getting started with R and Bioconductor</a></li>
+<li class="chapter" data-level="2.3" data-path="data-stuctures-and-data-types.html"><a href="data-stuctures-and-data-types.html"><i class="fa fa-check"></i><b>2.3</b> Data stuctures and data types</a></li>
+<li class="chapter" data-level="2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>2.4</b> Reading and writing data</a></li>
+<li class="chapter" data-level="2.5" data-path="plots-base-r-vs-ggplot.html"><a href="plots-base-r-vs-ggplot.html"><i class="fa fa-check"></i><b>2.5</b> Plots: Base R vs ggplot</a></li>
+<li class="chapter" data-level="2.6" data-path="functions-and-loops.html"><a href="functions-and-loops.html"><i class="fa fa-check"></i><b>2.6</b> Functions and Loops</a></li>
+<li class="chapter" data-level="2.7" data-path="resources-1.html"><a href="resources-1.html"><i class="fa fa-check"></i><b>2.7</b> Resources</a></li>
+<li class="chapter" data-level="2.8" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html"><i class="fa fa-check"></i><b>2.8</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="2.8.1" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html#cohort-1-1"><i class="fa fa-check"></i><b>2.8.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html"><i class="fa fa-check"></i><b>3</b> Statistics for Genomics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.2</b> How to summarize collection of data points: The idea behind statistical distributions</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#measuring-the-measuring-central-tendency"><i class="fa fa-check"></i><b>3.2.1</b> Measuring the measuring central tendency</a></li>
+<li class="chapter" data-level="3.2.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#measurements-of-variation"><i class="fa fa-check"></i><b>3.2.2</b> Measurements of variation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#statistical-distributions"><i class="fa fa-check"></i><b>3.2.3</b> Statistical distributions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#confidence-intervals"><i class="fa fa-check"></i><b>3.2.4</b> Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html"><i class="fa fa-check"></i><b>3.3</b> How to test for differences between samples</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#randomization"><i class="fa fa-check"></i><b>3.3.1</b> Randomization</a></li>
+<li class="chapter" data-level="3.3.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#t-test"><i class="fa fa-check"></i><b>3.3.2</b> t-test</a></li>
+<li class="chapter" data-level="3.3.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#multiple-testing"><i class="fa fa-check"></i><b>3.3.3</b> Multiple testing</a></li>
+<li class="chapter" data-level="3.3.4" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#moderated-t-tests"><i class="fa fa-check"></i><b>3.3.4</b> Moderated t-tests</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html"><i class="fa fa-check"></i><b>3.4</b> Relationship between variables: Linear models and correlation</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#the-cost-or-loss-function-approach"><i class="fa fa-check"></i><b>3.4.1</b> The cost or loss function approach</a></li>
+<li class="chapter" data-level="3.4.2" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#the-maximum-likelihood-approach"><i class="fa fa-check"></i><b>3.4.2</b> The “maximum likelihood” approach</a></li>
+<li class="chapter" data-level="3.4.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#linear-algebra-and-closed-form-solution-to-linear-regression"><i class="fa fa-check"></i><b>3.4.3</b> Linear algebra and closed-form solution to linear regression</a></li>
+<li class="chapter" data-level="3.4.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>3.4.4</b> How to estimate the error of the coefficients</a></li>
+<li class="chapter" data-level="3.4.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>3.4.5</b> Accuracy of the model</a></li>
+<li class="chapter" data-level="3.4.6" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.4.6</b> Regression with categorical variables</a></li>
+<li class="chapter" data-level="3.4.7" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.4.7</b> Regression pitfalls</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html"><i class="fa fa-check"></i><b>3.5</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html#cohort-1-2"><i class="fa fa-check"></i><b>3.5.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploratory-data-analysis-with-unsupervised-machine-learning.html"><a href="exploratory-data-analysis-with-unsupervised-machine-learning.html"><i class="fa fa-check"></i><b>4</b> Exploratory Data Analysis with Unsupervised Machine Learning</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="slide-1.html"><a href="slide-1.html"><i class="fa fa-check"></i><b>4.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="4.2" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html"><i class="fa fa-check"></i><b>4.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html#cohort-1-3"><i class="fa fa-check"></i><b>4.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="predictive-modeling-with-supervised-machine-learning.html"><a href="predictive-modeling-with-supervised-machine-learning.html"><i class="fa fa-check"></i><b>5</b> Predictive Modeling with Supervised Machine Learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="slide-1-1.html"><a href="slide-1-1.html"><i class="fa fa-check"></i><b>5.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="5.2" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html"><i class="fa fa-check"></i><b>5.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html#cohort-1-4"><i class="fa fa-check"></i><b>5.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="operations-on-genomic-intervals-and-genome-arithmetic.html"><a href="operations-on-genomic-intervals-and-genome-arithmetic.html"><i class="fa fa-check"></i><b>6</b> Operations on Genomic Intervals and Genome Arithmetic</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="slide-1-2.html"><a href="slide-1-2.html"><i class="fa fa-check"></i><b>6.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="6.2" data-path="meeting-videos-5.html"><a href="meeting-videos-5.html"><i class="fa fa-check"></i><b>6.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="meeting-videos-5.html"><a href="meeting-videos-5.html#cohort-1-5"><i class="fa fa-check"></i><b>6.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="quality-check-processing-and-alignment-of-high-throughput-sequencing-reads.html"><a href="quality-check-processing-and-alignment-of-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>7</b> Quality Check, Processing and Alignment of High-throughput Sequencing Reads</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="slide-1-3.html"><a href="slide-1-3.html"><i class="fa fa-check"></i><b>7.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="7.2" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html"><i class="fa fa-check"></i><b>7.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html#cohort-1-6"><i class="fa fa-check"></i><b>7.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="rna-seq-analysis.html"><a href="rna-seq-analysis.html"><i class="fa fa-check"></i><b>8</b> RNA-seq Analysis</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="slide-1-4.html"><a href="slide-1-4.html"><i class="fa fa-check"></i><b>8.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="8.2" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html"><i class="fa fa-check"></i><b>8.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html#cohort-1-7"><i class="fa fa-check"></i><b>8.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chip-seq-analysis.html"><a href="chip-seq-analysis.html"><i class="fa fa-check"></i><b>9</b> ChIP-seq analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="slide-1-5.html"><a href="slide-1-5.html"><i class="fa fa-check"></i><b>9.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="9.2" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html"><i class="fa fa-check"></i><b>9.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html#cohort-1-8"><i class="fa fa-check"></i><b>9.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dna-methylation-analysis-using-bisulfite-sequencing-data.html"><a href="dna-methylation-analysis-using-bisulfite-sequencing-data.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="slide-1-6.html"><a href="slide-1-6.html"><i class="fa fa-check"></i><b>10.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="10.2" data-path="meeting-videos-9.html"><a href="meeting-videos-9.html"><i class="fa fa-check"></i><b>10.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="meeting-videos-9.html"><a href="meeting-videos-9.html#cohort-1-9"><i class="fa fa-check"></i><b>10.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="multi-omics-analysis.html"><a href="multi-omics-analysis.html"><i class="fa fa-check"></i><b>11</b> Multi-omics Analysis</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="slide-1-7.html"><a href="slide-1-7.html"><i class="fa fa-check"></i><b>11.1</b> SLIDE 1</a></li>
+<li class="chapter" data-level="11.2" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html"><i class="fa fa-check"></i><b>11.2</b> Meeting Videos</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html#cohort-1-10"><i class="fa fa-check"></i><b>11.2.1</b> Cohort 1</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics with R Book Club</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="relationship-between-variables-linear-models-and-correlation" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Relationship between variables: Linear models and correlation<a href="relationship-between-variables-linear-models-and-correlation.html#relationship-between-variables-linear-models-and-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Examples:</p>
+<ol style="list-style-type: decimal">
+<li>want to know about expression of a particular gene in liver in relation to the dosage of a drug that patient receives</li>
+<li>DNA methylation of a certain locus in the genome in relation to the age of the sample donor.</li>
+<li>relationship between histone modifications and gene expression.</li>
+</ol>
+<p><span class="math display">\[Y=\beta_0+\beta_1X+\epsilon\]</span>
+Approximation of the <strong>response</strong>:</p>
+<p><span class="math display">\[Y\sim\beta_0+\beta_1X\]</span>
+Estimation of the coefficients:</p>
+<p><span class="math display">\[Y=\hat{\beta_0}+\hat{\beta_1}X\]</span></p>
+<p>More than one predictor:</p>
+<p><span class="math display">\[Y=\beta_0+\beta_1X_1+\beta_2X_2+\epsilon\]</span>
+<span class="math display">\[Y=\beta_0+\beta_1X_1+\beta_2X_2+\beta_3X_3+...+\beta_nX_n+\epsilon\]</span></p>
+<p><br></p>
+<p><span class="math display">\[Y=\begin{bmatrix}
+1 &amp; X_{1,1} &amp; X_{1,2}\\
+1 &amp; X_{2,1} &amp; X_{2,2}\\
+1 &amp; X_{3,1} &amp; X_{3,2}\\
+1 &amp; X_{4,1} &amp; X_{4,2}
+\end{bmatrix}\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2
+\end{bmatrix}+\begin{bmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\epsilon_3\\
+\epsilon_0
+\end{bmatrix}\]</span></p>
+<p><br></p>
+<p><span class="math display">\[Y_1=\beta_0+\beta_1X_{1,1}+\beta_2X_{1,2}+\epsilon_1\]</span>
+<span class="math display">\[Y_1=\beta_0+\beta_1X_{2,1}+\beta_2X_{2,2}+\epsilon_2\]</span>
+<span class="math display">\[Y_1=\beta_0+\beta_1X_{3,1}+\beta_2X_{3,2}+\epsilon_3\]</span>
+<span class="math display">\[Y_1=\beta_0+\beta_1X_{4,1}+\beta_2X_{4,2}+\epsilon_4\]</span>
+<br></p>
+<p><span class="math display">\[Y=X\beta+\epsilon\]</span></p>
+<div id="the-cost-or-loss-function-approach" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> The cost or loss function approach<a href="relationship-between-variables-linear-models-and-correlation.html#the-cost-or-loss-function-approach" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Minimize the residuals: optimization procedure</p>
+<p><span class="math display">\[min\sum{(y_i=(\beta_0+\beta_1x_1))^2}\]</span></p>
+<p><strong>The “gradient descent” algorithm”</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Pick a random starting point, random <span class="math inline">\(\beta\)</span> values.</p></li>
+<li><p>Take the partial derivatives of the cost function to see which direction is the way to go in the cost function.</p></li>
+<li><p>Take a step toward the direction that minimizes the cost function.</p>
+<ul>
+<li>Step size is a parameter to choose, there are many variants.</li>
+</ul></li>
+<li><p>Repeat step 2,3 until convergence.</p></li>
+</ol>
+<p><strong>The algorithm usually converges to optimum <span class="math inline">\(\beta\)</span> values.</strong></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:03-8"></span>
+<img src="images/3_gradient_descent.png" alt="Cost function landscape for linear regression with changing beta values. The optimization process tries to find the lowest point in this landscape by implementing a strategy for updating beta values toward the lowest point in the landscape."  />
+<p class="caption">
+Figure 3.1: Cost function landscape for linear regression with changing beta values. The optimization process tries to find the lowest point in this landscape by implementing a strategy for updating beta values toward the lowest point in the landscape.
+</p>
+</div>
+</div>
+<div id="the-maximum-likelihood-approach" class="section level3 hasAnchor" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> The “maximum likelihood” approach<a href="relationship-between-variables-linear-models-and-correlation.html#the-maximum-likelihood-approach" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>The response variable <span class="math inline">\(y_i\)</span> follows a normal distribution with mean <span class="math inline">\(\beta_0+\beta_1x_i\)</span> and variance <span class="math inline">\(s^2\)</span>.</p></li>
+<li><p>Find <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> that maximizes the probability of observing all the response variables in the dataset given the explanatory variables.</p></li>
+<li><p>constant variance <span class="math inline">\(s^2\)</span>, estimation of the variance of the population <span class="math inline">\(\sigma^2\)</span></p></li>
+</ul>
+<p><span class="math display">\[s^2=\frac{\sum{\epsilon_i}}{n-2}\]</span>
+Probability:</p>
+<p><span class="math display">\[P(y_i)=\frac{1}{s\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{y_i-(\beta_0+\beta_1x_i)}{s})^2}\]</span></p>
+<p>Likelihood function:</p>
+<p><span class="math display">\[L=P(y_1)P(y_2)P(y_3)..P(y_n)=\prod_{i=1}^{n}{P_i}\]</span></p>
+<p>The log:</p>
+<p><span class="math display">\[ln(L)=-nln(s\sqrt{2\pi})-\frac{1}{2s^2}\sum_{i=1}{n}{(y_i-(\beta_0+\beta_1x_i))^2}\]</span>
+the negative of the cost function:
+<span class="math display">\[-\frac{1}{2s^2}\sum_{i=1}{n}{(y_i-(\beta_0+\beta_1x_i))^2}\]</span>
+to optimize this function we would need to take the derivative of the function with respect to the parameters.</p>
+</div>
+<div id="linear-algebra-and-closed-form-solution-to-linear-regression" class="section level3 hasAnchor" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Linear algebra and closed-form solution to linear regression<a href="relationship-between-variables-linear-models-and-correlation.html#linear-algebra-and-closed-form-solution-to-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[\epsilon_i=Y_i-(\beta_0+\beta_1x_i)\]</span>
+<br></p>
+<p><span class="math display">\[\sum{\epsilon_i^2}=\epsilon^T\epsilon=(Y-\beta X)^T(Y-\beta X)\]</span>
+<span class="math display">\[= Y^TY-(2\beta^T Y + \beta^T X^T X\beta)\]</span>
+<br></p>
+<p><span class="math display">\[\hat{\beta}=(X^T X)^{-1}X^T Y\]</span></p>
+<p><span class="math display">\[\hat{\beta_1}=\frac{\sum{(x_i-\bar{X})(y_i-\bar{Y})}}{\sum{(x_i-\bar{X})^2}}\]</span></p>
+<p><span class="math display">\[\hat{\beta_0}=\bar{Y}-\hat{\beta_1}\bar{X}\]</span></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set random number seed, so that the random numbers from the text</span></span>
+<span id="cb38-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># is the same when you run the code.</span></span>
+<span id="cb38-3"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb38-4"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get 50 X values between 1 and 100</span></span>
+<span id="cb38-6"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">50</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb38-7"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set b0,b1 and variance (sigma)</span></span>
+<span id="cb38-9"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-9" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb38-10"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-10" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb38-11"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-11" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb38-12"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate error terms from normal distribution</span></span>
+<span id="cb38-13"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-13" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>,<span class="dv">0</span>,sigma)</span>
+<span id="cb38-14"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co"># get y values from the linear equation and addition of error terms</span></span>
+<span id="cb38-15"><a href="relationship-between-variables-linear-models-and-correlation.html#cb38-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x<span class="sc">+</span> eps</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb39-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data points</span></span>
+<span id="cb39-4"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="at">pch=</span><span class="dv">20</span>,</span>
+<span id="cb39-5"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Gene Expression&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Histone modification score&quot;</span>)</span>
+<span id="cb39-6"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the linear fit</span></span>
+<span id="cb39-7"><a href="relationship-between-variables-linear-models-and-correlation.html#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(mod1,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="bookclub-comp_genom_files/figure-html/03-10-1.png" width="672" /></p>
+</div>
+<div id="how-to-estimate-the-error-of-the-coefficients" class="section level3 hasAnchor" number="3.4.4">
+<h3><span class="header-section-number">3.4.4</span> How to estimate the error of the coefficients<a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:03-11"></span>
+<img src="images/3_coeff_err.png" alt="Regression coefficients vary with every random sample. The figure illustrates the variability of regression coefficients when regression is done using a sample of data points. Histograms depict this variability for b0 and b1 coefficients."  />
+<p class="caption">
+Figure 3.2: Regression coefficients vary with every random sample. The figure illustrates the variability of regression coefficients when regression is done using a sample of data points. Histograms depict this variability for b0 and b1 coefficients.
+</p>
+</div>
+<p>The calculation of the <strong>Residual Standard Error (RSE)</strong></p>
+<p><span class="math display">\[s=RSE\]</span></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb40-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb40-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -38.50 -12.62   1.66  14.26  37.20 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.40951    6.43208   0.064     0.95    
+## x            2.08742    0.09775  21.355   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 16.96 on 48 degrees of freedom
+## Multiple R-squared:  0.9048, Adjusted R-squared:  0.9028 
+## F-statistic:   456 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get confidence intervals </span></span>
+<span id="cb42-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(mod1)</span></code></pre></div>
+<pre><code>##                  2.5 %    97.5 %
+## (Intercept) -12.523065 13.342076
+## x             1.890882  2.283952</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pull out coefficients from the model</span></span>
+<span id="cb44-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(mod1)</span></code></pre></div>
+<pre><code>## (Intercept)           x 
+##   0.4095054   2.0874167</code></pre>
+</div>
+<div id="accuracy-of-the-model" class="section level3 hasAnchor" number="3.4.5">
+<h3><span class="header-section-number">3.4.5</span> Accuracy of the model<a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[s=RSE=\sqrt{\frac{\sum{(y_i-\hat{Y_i})^2}}{n-p}}=\sqrt{\frac{RSS}{n-p}}\]</span></p>
+<p><br></p>
+<p><span class="math display">\[R^2=1-\frac{RSS}{TSS}=\frac{TSS-RSS}{TSS}=1-\frac{RSS}{TSS}\]</span></p>
+<p><br></p>
+<p><span class="math display">\[r_{xy}=\frac{cov(X,Y)}{\sigma_x\sigma_y}=\frac{\sum_{i=1}^n{(x_i-\bar{x})(y_i-\bar{y})}}{\sqrt{\sum_{i=1}^n{(x_i-\bar{x})^2\sum_{i=1}^n{(y_i-\bar{y})^2}}}}\]</span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:03-15"></span>
+<img src="images/3_R.png" alt="Correlation and covariance for different scatter plots."  />
+<p class="caption">
+Figure 3.3: Correlation and covariance for different scatter plots.
+</p>
+</div>
+<p><span class="math display">\[H_0:\beta_1=\beta_2=\beta_3=...=\beta_p=0\]</span></p>
+<p><span class="math display">\[H_1:\text{at least one}\beta_1\neq0\]</span></p>
+<p><strong>The F-statistic for a linear model</strong></p>
+<p><span class="math display">\[F=\frac{(TSS-RSS)/(p-1)}{RSS/(n-p)}=\frac{(TSS-RSS)/(p-1)}{RSE}\sim{F(p-1,n-p)}\]</span></p>
+</div>
+<div id="regression-with-categorical-variables" class="section level3 hasAnchor" number="3.4.6">
+<h3><span class="header-section-number">3.4.6</span> Regression with categorical variables<a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb46-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-2" aria-hidden="true" tabindex="-1"></a>gene1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">4</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb46-3"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-3" aria-hidden="true" tabindex="-1"></a>gene2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">2</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb46-4"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-4" aria-hidden="true" tabindex="-1"></a>gene.df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(gene1,gene2),</span>
+<span id="cb46-5"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group=</span><span class="fu">c</span>( <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">30</span>) ) )</span>
+<span id="cb46-6"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-7" aria-hidden="true" tabindex="-1"></a>mod2<span class="ot">=</span><span class="fu">lm</span>(exp<span class="sc">~</span>group,<span class="at">data=</span>gene.df)</span>
+<span id="cb46-8"><a href="relationship-between-variables-linear-models-and-correlation.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = exp ~ group, data = gene.df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -1.0664  0.0122  1.3840  4.5629 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   2.1851     0.3517   6.214 6.04e-08 ***
+## group         1.8726     0.4973   3.765 0.000391 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.926 on 58 degrees of freedom
+## Multiple R-squared:  0.1964, Adjusted R-squared:  0.1826 
+## F-statistic: 14.18 on 1 and 58 DF,  p-value: 0.0003905</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(mosaic)</span>
+<span id="cb48-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotModel</span>(mod2)</span></code></pre></div>
+<p><img src="bookclub-comp_genom_files/figure-html/03-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-1" aria-hidden="true" tabindex="-1"></a>gene.df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(gene1,gene2,gene2),</span>
+<span id="cb49-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group=</span><span class="fu">c</span>( <span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">30</span>) ) </span>
+<span id="cb49-3"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-3" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb49-4"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-5" aria-hidden="true" tabindex="-1"></a>mod3<span class="ot">=</span><span class="fu">lm</span>(exp<span class="sc">~</span>group,<span class="at">data=</span>gene.df)</span>
+<span id="cb49-6"><a href="relationship-between-variables-linear-models-and-correlation.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = exp ~ group, data = gene.df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -1.0793 -0.0976  1.4844  4.5629 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   4.0577     0.3781  10.731  &lt; 2e-16 ***
+## groupB       -1.8726     0.5348  -3.502 0.000732 ***
+## groupC       -1.8726     0.5348  -3.502 0.000732 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.071 on 87 degrees of freedom
+## Multiple R-squared:  0.1582, Adjusted R-squared:  0.1388 
+## F-statistic: 8.174 on 2 and 87 DF,  p-value: 0.0005582</code></pre>
+</div>
+<div id="regression-pitfalls" class="section level3 hasAnchor" number="3.4.7">
+<h3><span class="header-section-number">3.4.7</span> Regression pitfalls<a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Non-linearity</li>
+<li>Correlation of explanatory variables</li>
+<li>Correlation of error terms</li>
+<li>Non-constant variance of error terms</li>
+<li>Outliers and high leverage points</li>
+</ul>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="how-to-test-for-differences-between-samples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="meeting-videos-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/03.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11.2 Meeting Videos | Computational Genomics with R Book Club</title>
+  <title>3.2 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics with R Book Club</title>
   <meta name="description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta property="og:title" content="3.2 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics with R Book Club" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   <meta name="github-repo" content="r4ds/bookclub-comp_genom" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11.2 Meeting Videos | Computational Genomics with R Book Club" />
+  <meta name="twitter:title" content="3.2 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics with R Book Club" />
   
   <meta name="twitter:description" content="This is the product of the R4DS Online Learning Community’s Computational Genomics with R Book Club." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="slide-1-7.html"/>
-
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="how-to-test-for-differences-between-samples.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -287,29 +287,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="meeting-videos-10" class="section level2 hasAnchor" number="11.2">
-<h2><span class="header-section-number">11.2</span> Meeting Videos<a href="meeting-videos-10.html#meeting-videos-10" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="cohort-1-10" class="section level3 hasAnchor" number="11.2.1">
-<h3><span class="header-section-number">11.2.1</span> Cohort 1<a href="meeting-videos-10.html#cohort-1-10" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<iframe src="https://www.youtube.com/embed/URL" width="100%" height="400px" data-external="1">
-</iframe>
-<details>
-<summary>
-Meeting chat log
-</summary>
-<pre><code>LOG</code></pre>
-</details>
-
+<div id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> How to summarize collection of data points: The idea behind statistical distributions<a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="measuring-the-measuring-central-tendency" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Measuring the measuring central tendency<a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#measuring-the-measuring-central-tendency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>mean</li>
+<li>median: not affected by outliers</li>
+</ul>
+</div>
+<div id="measurements-of-variation" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Measurements of variation<a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#measurements-of-variation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>range</li>
+<li>standard deviation</li>
+<li>variance: affected by outliers</li>
+<li>adj variance</li>
+<li>percentiles: difference between 75th percentile and 25th percentile removes potential outliers</li>
+</ul>
+</div>
+<div id="statistical-distributions" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Statistical distributions<a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#statistical-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>probability of occurrence</p>
+<ul>
+<li>normal distribution or Gaussian distribution: typical “bell-curve”</li>
+</ul>
+</div>
+<div id="confidence-intervals" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Confidence intervals<a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>bootstrap resampling or bootstrapping: estimate intervals is to repeatedly take samples from the original sample with replacement.</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb28-2"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
+<span id="cb28-3"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-3" aria-hidden="true" tabindex="-1"></a>sample1<span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>,<span class="dv">20</span>,<span class="dv">5</span>) <span class="co"># simulate a sample</span></span>
+<span id="cb28-4"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># do bootstrap resampling, sampling with replacement</span></span>
+<span id="cb28-6"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-6" aria-hidden="true" tabindex="-1"></a>boot.means<span class="ot">=</span><span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">mean</span>(<span class="fu">resample</span>(sample1))</span>
+<span id="cb28-7"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get percentiles from the bootstrap means</span></span>
+<span id="cb28-9"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-9" aria-hidden="true" tabindex="-1"></a>q<span class="ot">=</span><span class="fu">quantile</span>(boot.means[,<span class="dv">1</span>],<span class="at">p=</span><span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
+<span id="cb28-10"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the histogram</span></span>
+<span id="cb28-12"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(boot.means[,<span class="dv">1</span>],<span class="at">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="at">border=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb28-13"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlab=</span><span class="st">&quot;sample means&quot;</span>)</span>
+<span id="cb28-14"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(q[<span class="dv">1</span>], q[<span class="dv">2</span>] ),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb28-15"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>q[<span class="dv">1</span>],<span class="at">y=</span><span class="dv">200</span>,<span class="fu">round</span>(q[<span class="dv">1</span>],<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb28-16"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>q[<span class="dv">2</span>],<span class="at">y=</span><span class="dv">200</span>,<span class="fu">round</span>(q[<span class="dv">2</span>],<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div>
+<p><img src="bookclub-comp_genom_files/figure-html/03-1-2.png" width="672" /></p>
+<ul>
+<li>Central Limit Theorem(CLT): construct the confidence interval using standard normal distribution, take repeated samples from a population with sample size, the distribution of means of those samples will be approximately normal with mean and standard deviation.</li>
+</ul>
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="slide-1-7.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-to-test-for-differences-between-samples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -340,7 +377,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/11.Rmd",
+"link": "https://github.com/r4ds/bookclub-comp_genom/edit/main/03.Rmd",
 "text": "Edit"
 },
 "history": {
